@@ -29,3 +29,16 @@ jobs:
           repository: adachikun/githubactionsbuild
           tags: latest
           push: false
+
+      # build-push-action + Buildkit
+      # https://github.com/marketplace/actions/build-and-push-docker-images
+      - name: Build
+        uses: docker/build-push-action@v1
+        env:
+          DOCKER_BUILDKIT: 1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: adachikun/githubactionsbuild
+          tags: latest
+          push: false
