@@ -7,6 +7,15 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
+
+      # ベースライン
+      # - uses: actions/checkout@master
+      # - name: Build
+      #   run: docker build .
+
+      # BuildKitのみ
       - uses: actions/checkout@master
       - name: Build
+        env:
+          DOCKER_BUILDKIT: 1
         run: docker build .
