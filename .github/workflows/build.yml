@@ -1,4 +1,4 @@
-name: deploy
+name: build
 on:
   push:
     branches: master
@@ -8,8 +8,5 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-
       - name: Build
-        env:
-        run: |
-          docker build .
+        run: docker build .
