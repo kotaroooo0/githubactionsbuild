@@ -21,7 +21,7 @@ jobs:
 
       # build-push-action
       # https://github.com/marketplace/actions/build-and-push-docker-images
-      - name: build-push-action
+      - name: Build
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
