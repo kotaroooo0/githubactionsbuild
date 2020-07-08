@@ -100,3 +100,4 @@ jobs:
         tags: latest
         cache_froms: adachikun/githubactionsbuild:latest
         build_args: BUILDKIT_INLINE_CACHE=1
+        push: false
