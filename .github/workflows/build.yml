@@ -98,5 +98,5 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: adachikun/githubactionsbuild
         tags: latest
-        cache-froms: adachikun/githubactionsbuild:latest
-        build-arg: BUILDKIT_INLINE_CACHE=1
+        cache_froms: adachikun/githubactionsbuild:latest
+        build_args: BUILDKIT_INLINE_CACHE=1
