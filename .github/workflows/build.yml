@@ -45,11 +45,11 @@ jobs:
     - uses: actions/checkout@master
     - name: Build
       env:
-        SHA: ${{ github.sha }}
+        # SHA: ${{ github.sha }}
         DOCKER_BUILDKIT: 1
       run: |
         echo $SHA
-        docker build --tag adachikun/githubactionsbuild:$SHA --cache-from=adachikun/githubactionsbuild:$SHA --build-arg BUILDKIT_INLINE_CACHE=1 .
+        docker build --tag adachikun/githubactionsbuild:latest --cache-from=adachikun/githubactionsbuild:latest --build-arg BUILDKIT_INLINE_CACHE=1 .
 
     - name: docker login
       env:
@@ -57,9 +57,7 @@ jobs:
         DOCKERHUB_PASS: ${{ secrets.DOCKER_PASSWORD }}
       run: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
     - name: push image
-      env:
-        SHA: ${{ github.sha }}
-      run: docker push adachikun/githubactionsbuild:$SHA
+      run: docker push adachikun/githubactionsbuild:latest
 
       # build-push-action
       # https://github.com/marketplace/actions/build-and-push-docker-images
