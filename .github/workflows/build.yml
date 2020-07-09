@@ -5,52 +5,52 @@ on:
 
 jobs:
   # ベースライン
-  # build_no_cache:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - uses: actions/checkout@master
-  #     - name: Build
-  #       run: docker build .
+  build_no_cache:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Build
+        run: docker build .
 
   # BuildKitのみ
-  # build_no_cache_buildkit:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - uses: actions/checkout@master
-  #     - name: Build
-  #       env:
-  #         DOCKER_BUILDKIT: 1
-  #       run: docker build .
+  build_no_cache_buildkit:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Build
+        env:
+          DOCKER_BUILDKIT: 1
+        run: docker build .
 
-  # build_with_docker_save_load:
-    # runs-on: ubuntu-18.04
-    # steps:
-    # - uses: actions/checkout@master
-    # - id: cache-docker
-    #   uses: actions/cache@v1
-    #   with:
-    #     path: /tmp/docker-save
-    #     key: docker-save-${{ hashFiles('Dockerfile') }}
-    # - run: docker load -i /tmp/docker-save/snapshot.tar || true
-    #   if: steps.cache-docker.outputs.cache-hit == 'true'
-    # - run: docker build . -t thing --cache-from=thing-cache
-    # - run: docker tag thing thing-cache && mkdir -p /tmp/docker-save && docker save thing-cache -o /tmp/docker-save/snapshot.tar && ls -lh /tmp/docker-save || true
-    #   if: always() && steps.cache-docker.outputs.cache-hit != 'true'
+  build_with_docker_save_load:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+    - id: cache-docker
+      uses: actions/cache@v1
+      with:
+        path: /tmp/docker-save
+        key: docker-save-${{ hashFiles('Dockerfile') }}
+    - run: docker load -i /tmp/docker-save/snapshot.tar || true
+      if: steps.cache-docker.outputs.cache-hit == 'true'
+    - run: docker build . -t thing --cache-from=thing-cache
+    - run: docker tag thing thing-cache && mkdir -p /tmp/docker-save && docker save thing-cache -o /tmp/docker-save/snapshot.tar && ls -lh /tmp/docker-save || true
+      if: always() && steps.cache-docker.outputs.cache-hit != 'true'
 
   # cache-from -build-arg
-  # cache-from-with-build-arg:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #   - uses: actions/checkout@master
-  #   - name: Build and Push
-  #     env:
-  #       DOCKER_BUILDKIT: 1
-  #       DOCKERHUB_USER: ${{ secrets.DOCKER_USERNAME }}
-  #       DOCKERHUB_PASS: ${{ secrets.DOCKER_PASSWORD }}
-  #     run: |
-  #       docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
-  #       docker build -t adachikun/githubactionsbuild:latest --cache-from=adachikun/githubactionsbuild:latest --build-arg BUILDKIT_INLINE_CACHE=1 .
-  #       docker push adachikun/githubactionsbuild:latest
+  cache-from-with-build-arg:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+    - name: Build and Push
+      env:
+        DOCKER_BUILDKIT: 1
+        DOCKERHUB_USER: ${{ secrets.DOCKER_USERNAME }}
+        DOCKERHUB_PASS: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
+        docker build -t adachikun/githubactionsbuild:latest --cache-from=adachikun/githubactionsbuild:latest --build-arg BUILDKIT_INLINE_CACHE=1 .
+        docker push adachikun/githubactionsbuild:latest
 
 
   build-push-action-cache:
