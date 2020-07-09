@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@master
-    - name: Build
+    - name: Build and Push
       env:
         DOCKER_BUILDKIT: 1
         DOCKERHUB_USER: ${{ secrets.DOCKER_USERNAME }}
